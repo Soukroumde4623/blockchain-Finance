@@ -1,0 +1,85 @@
+{
+    "name": "fabric-network-org1",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Org1",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": 300
+                },
+                "orderer": 300
+            }
+        }
+    },
+    "organizations": {
+        "Org1": {
+            "mspid": "Org1MSP",
+            "peers": [
+                "peer1-org1",
+                "peer2-org1"
+            ],
+            "certificateAuthorities": [
+                "ca-org1"
+            ],
+            "adminPrivateKey": {
+                "path": "../hyperledger-fabric-network/crypto/Org1/adminOrg1/msp/keystore/key.pem"
+            },
+            "signedCert": {
+                "path": "../hyperledger-fabric-network/crypto/Org1/adminOrg1/msp/signcerts/cert.pem"
+            }
+        }
+    },
+    "peers": {
+        "peer1-org1": {
+            "url": "grpcs://localhost:7051",
+            "tlsCACerts": {
+                "path": "../hyperledger-fabric-network/crypto/Org1/peer1Org1/tls/tlscacerts/tls-ca-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1-org1.finance.com",
+                "hostnameOverride": "peer1-org1.finance.com"
+            }
+        },
+        "peer2-org1": {
+            "url": "grpcs://localhost:7052",
+            "tlsCACerts": {
+                "path": "../hyperledger-fabric-network/crypto/Org1/peer2Org1/tls/tlscacerts/tls-ca-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "peer2-org1.finance.com",
+                "hostnameOverride": "peer2-org1.finance.com"
+            }
+        }
+    },
+    "orderers": {
+        "orderer1": {
+            "url": "grpcs://localhost:7071",
+            "tlsCACerts": {
+                "path": "../hyperledger-fabric-network/crypto/Orderer/orderer1/tls/tlscacerts/tls-ca-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer1.finance.com"
+            }
+        },
+        "orderer2": {
+            "url": "grpcs://localhost:7072",
+            "tlsCACerts": {
+                "path": "../hyperledger-fabric-network/crypto/Orderer/orderer2/tls/tlscacerts/tls-ca-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer2.finance.com"
+            }
+        },
+        "orderer3": {
+            "url": "grpcs://localhost:7073",
+            "tlsCACerts": {
+                "path": "../hyperledger-fabric-network/crypto/Orderer/orderer3/tls/tlscacerts/tls-ca-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer3.finance.com"
+            }
+        }
+    },
+    "certificateAuthorities": {}
+}

@@ -1,0 +1,21 @@
+# ============================================================================
+# Docker Compose — Frontend Only (Preview Mode)
+# 
+# Permet à n'importe qui de voir le dashboard React
+# sans avoir besoin du réseau Fabric ou du backend.
+#
+# Usage:
+#   docker-compose -f docker-compose.frontend.yml up --build
+#
+# Puis ouvrir: http://localhost:3000
+# ============================================================================
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blockchain-dashboard
+    ports:
+      - "3000:80"
+    restart: unless-stopped

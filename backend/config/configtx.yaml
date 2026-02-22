@@ -1,0 +1,234 @@
+Organizations:
+  - &OrdererOrg
+    Name: OrdererMSP
+    ID: OrdererMSP
+    MSPDir: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/OrdererOrg/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.admin')"
+  - &Org1
+    Name: Org1MSP
+    ID: Org1MSP
+    MSPDir: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org1MSP/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('Org1MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('Org1MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('Org1MSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Org1MSP.member')"
+    AnchorPeers:
+      - Host: peer1-org1.finance.com
+        Port: 7051
+      - Host: peer2-org1.finance.com
+        Port: 7052
+  - &Org2
+    Name: Org2MSP
+    ID: Org2MSP
+    MSPDir: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org2MSP/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('Org2MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('Org2MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('Org2MSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('Org2MSP.member')"
+    AnchorPeers:
+      - Host: peer1-org2.finance.com
+        Port: 7053
+      - Host: peer2-org2.finance.com
+        Port: 7054
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+Orderer:
+  OrdererType: etcdraft
+  Addresses:
+    - orderer1.finance.com:7071
+    - orderer2.finance.com:7072
+    - orderer3.finance.com:7073
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  EtcdRaft:
+    Consenters:
+      - Host: orderer1.finance.com
+        Port: 9071
+        ClientTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/tls/signcerts/cert.pem
+        ServerTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/tls/signcerts/cert.pem
+      - Host: orderer2.finance.com
+        Port: 9072
+        ClientTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/tls/signcerts/cert.pem
+        ServerTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/tls/signcerts/cert.pem
+      - Host: orderer3.finance.com
+        Port: 9073
+        ClientTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/tls/signcerts/cert.pem
+        ServerTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/tls/signcerts/cert.pem
+  Organizations:
+    - *OrdererOrg
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+Application:
+  Organizations:
+    - *Org1
+    - *Org2
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+Channel:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+Profiles:
+  TokenChannel:
+    Consortium: SampleConsortium
+    Policies:
+      Readers:
+        Type: ImplicitMeta
+        Rule: "ANY Readers"
+      Writers:
+        Type: ImplicitMeta
+        Rule: "ANY Writers"
+      Admins:
+        Type: ImplicitMeta
+        Rule: "MAJORITY Admins"
+    Capabilities:
+      <<: *ChannelCapabilities
+    Application:
+      Capabilities:
+        <<: *ApplicationCapabilities
+      Organizations:
+        - *Org1
+        - *Org2
+      Policies:
+        Readers:
+          Type: ImplicitMeta
+          Rule: "ANY Readers"
+        Writers:
+          Type: ImplicitMeta
+          Rule: "ANY Writers"
+        Admins:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Admins"
+        Endorsement:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Endorsement"
+        LifecycleEndorsement:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Endorsement"
+  OrdererGenesis:
+    Policies:
+      Readers:
+        Type: ImplicitMeta
+        Rule: "ANY Readers"
+      Writers:
+        Type: ImplicitMeta
+        Rule: "ANY Writers"
+      Admins:
+        Type: ImplicitMeta
+        Rule: "MAJORITY Admins"
+    Capabilities:
+      <<: *ChannelCapabilities
+    Orderer:
+      OrdererType: etcdraft
+      Addresses:
+        - orderer1.finance.com:7071
+        - orderer2.finance.com:7072
+        - orderer3.finance.com:7073
+      BatchTimeout: 2s
+      BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+      EtcdRaft:
+        Consenters:
+          - Host: orderer1.finance.com
+            Port: 9071
+            ClientTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/tls/signcerts/cert.pem
+            ServerTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/tls/signcerts/cert.pem
+          - Host: orderer2.finance.com
+            Port: 9072
+            ClientTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/tls/signcerts/cert.pem
+            ServerTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/tls/signcerts/cert.pem
+          - Host: orderer3.finance.com
+            Port: 9073
+            ClientTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/tls/signcerts/cert.pem
+            ServerTLSCert: /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/tls/signcerts/cert.pem
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+      Policies:
+        Readers:
+          Type: ImplicitMeta
+          Rule: "ANY Readers"
+        Writers:
+          Type: ImplicitMeta
+          Rule: "ANY Writers"
+        Admins:
+          Type: ImplicitMeta
+          Rule: "MAJORITY Admins"
+        BlockValidation:
+          Type: ImplicitMeta
+          Rule: "ANY Writers"
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *Org1
+          - *Org2

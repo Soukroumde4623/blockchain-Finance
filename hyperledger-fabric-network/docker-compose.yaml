@@ -1,0 +1,380 @@
+version: "3.9"
+networks:
+  fabric_network:
+    external: true
+services:
+  # ------------------- ORDERERS -------------------
+  fabric-orderer1:
+    image: hyperledger/fabric-orderer:2.5
+    container_name: fabric-orderer1
+    hostname: orderer1.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7071
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/tlscacerts/tls-ca-cert.pem]
+      - ORDERER_GENERAL_CLUSTER_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_CLUSTER_LISTENPORT=9071
+      - ORDERER_GENERAL_CLUSTER_SERVERCERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_SERVERPRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/msp:/etc/hyperledger/orderer/msp
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/tls:/etc/hyperledger/orderer/tls
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/orderer1:/var/hyperledger/production/orderer
+    ports:
+      - "7071:7071"
+      - "9451:9451"
+      - "8441:8441"
+      - "9071:9071"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.2
+    command: orderer
+    restart: unless-stopped
+  fabric-orderer2:
+    image: hyperledger/fabric-orderer:2.5
+    container_name: fabric-orderer2
+    hostname: orderer2.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7072
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/tlscacerts/tls-ca-cert.pem]
+      - ORDERER_GENERAL_CLUSTER_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_CLUSTER_LISTENPORT=9072
+      - ORDERER_GENERAL_CLUSTER_SERVERCERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_SERVERPRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/msp:/etc/hyperledger/orderer/msp
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/tls:/etc/hyperledger/orderer/tls
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer2/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/orderer2:/var/hyperledger/production/orderer
+    ports:
+      - "7072:7072"
+      - "9452:9452"
+      - "8442:8442"
+      - "9072:9072"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.3
+    command: orderer
+    restart: unless-stopped
+  fabric-orderer3:
+    image: hyperledger/fabric-orderer:2.5
+    container_name: fabric-orderer3
+    hostname: orderer3.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7073
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_BOOTSTRAPFILE=/etc/hyperledger/orderer/genesis.block
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/orderer/tls/tlscacerts/tls-ca-cert.pem]
+      - ORDERER_GENERAL_CLUSTER_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_CLUSTER_LISTENPORT=9073
+      - ORDERER_GENERAL_CLUSTER_SERVERCERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_SERVERPRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/orderer/tls/signcerts/cert.pem
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/orderer/tls/keystore/key.pem
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/msp:/etc/hyperledger/orderer/msp
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/tls:/etc/hyperledger/orderer/tls
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer3/genesis.block:/etc/hyperledger/orderer/genesis.block
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/orderer3:/var/hyperledger/production/orderer
+    ports:
+      - "7073:7073"
+      - "9453:9453"
+      - "8443:8443"
+      - "9073:9073"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.4
+    command: orderer
+    restart: unless-stopped
+  # ------------------- PEERS ORG1 -------------------
+  peer1-org1:
+    image: hyperledger/fabric-peer:2.5
+    container_name: peer1-org1
+    hostname: peer1-org1.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=peer1-org1.finance.com
+      - CORE_PEER_ADDRESS=peer1-org1.finance.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer1-org1.finance.com:8051
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2-org1.finance.com:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1-org1.finance.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/keystore/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/tlscacerts/tls-ca-cert.pem
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_network
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb-peer1-org1.finance.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:latest
+      - CORE_CHAINCODE_GOLANG_RUNTIME=hyperledger/fabric-baseos:latest
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org1/peer1Org1:/etc/hyperledger/peer
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/peer1org1:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    ports:
+      - "7051:7051"
+      - "8051:8051"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.5
+    depends_on:
+      - couchdb-peer1-org1
+    command: peer node start
+    restart: unless-stopped
+  peer2-org1:
+    image: hyperledger/fabric-peer:2.5
+    container_name: peer2-org1
+    hostname: peer2-org1.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=peer2-org1.finance.com
+      - CORE_PEER_ADDRESS=peer2-org1.finance.com:7052
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_CHAINCODEADDRESS=peer2-org1.finance.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1-org1.finance.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2-org1.finance.com:7052
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/keystore/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/tlscacerts/tls-ca-cert.pem
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_network
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb-peer2-org1.finance.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:latest
+      - CORE_CHAINCODE_GOLANG_RUNTIME=hyperledger/fabric-baseos:latest
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org1/peer2Org1:/etc/hyperledger/peer
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/peer2org1:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    ports:
+      - "7052:7052"
+      - "8052:8052"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.6
+    depends_on:
+      - couchdb-peer2-org1
+    command: peer node start
+    restart: unless-stopped
+  # ------------------- PEERS ORG2 -------------------
+  peer1-org2:
+    image: hyperledger/fabric-peer:2.5
+    container_name: peer1-org2
+    hostname: peer1-org2.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=peer1-org2.finance.com
+      - CORE_PEER_ADDRESS=peer1-org2.finance.com:7053
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7053
+      - CORE_PEER_CHAINCODEADDRESS=peer1-org2.finance.com:8053
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8053
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2-org2.finance.com:7054
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1-org2.finance.com:7053
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/keystore/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/tlscacerts/tls-ca-cert.pem
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_network
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb-peer1-org2.finance.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:latest
+      - CORE_CHAINCODE_GOLANG_RUNTIME=hyperledger/fabric-baseos:latest
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org2/peer1Org2:/etc/hyperledger/peer
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/peer1org2:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    ports:
+      - "7053:7053"
+      - "8053:8053"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.7
+    depends_on:
+      - couchdb-peer1-org2
+    command: peer node start
+    restart: unless-stopped
+  peer2-org2:
+    image: hyperledger/fabric-peer:2.5
+    container_name: peer2-org2
+    hostname: peer2-org2.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=peer2-org2.finance.com
+      - CORE_PEER_ADDRESS=peer2-org2.finance.com:7054
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7054
+      - CORE_PEER_CHAINCODEADDRESS=peer2-org2.finance.com:8054
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8054
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1-org2.finance.com:7053
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2-org2.finance.com:7054
+      - CORE_PEER_LOCALMSPID=Org2MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/peer/msp
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/peer/tls/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/peer/tls/keystore/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/tlscacerts/tls-ca-cert.pem
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=fabric_network
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb-peer2-org2.finance.com:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=adminpw
+      - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:latest
+      - CORE_CHAINCODE_GOLANG_RUNTIME=hyperledger/fabric-baseos:latest
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org2/peer2Org2:/etc/hyperledger/peer
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/ledger/peer2org2:/var/hyperledger/production
+      - /var/run/docker.sock:/host/var/run/docker.sock
+    ports:
+      - "7054:7054"
+      - "8054:8054"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.8
+    depends_on:
+      - couchdb-peer2-org2
+    command: peer node start
+    restart: unless-stopped
+  # ------------------- CLI -------------------
+  fabric-cli:
+    image: hyperledger/fabric-peer:2.5
+    container_name: fabric-cli
+    hostname: cli.finance.com
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/adminOrg1/msp
+      - CORE_PEER_ADDRESS=peer1-org1.finance.com:7051
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer/tls/tlscacerts/tls-ca-cert.pem
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org1/peer1Org1:/etc/hyperledger/peer
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org1/adminOrg1/msp:/etc/hyperledger/adminOrg1/msp
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Org2/adminOrg2/msp:/etc/hyperledger/adminOrg2/msp
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/Orderer/orderer1/tls:/etc/hyperledger/orderer/tls
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/channel-artifacts:/etc/hyperledger/channel-artifacts
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/chaincode:/etc/hyperledger/chaincode
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/peerSAT_COM:/etc/hyperledger/peerSAT_COM
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.9
+    command: /bin/sh
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+  # ------------------- COUCHDB -------------------
+  couchdb-peer1-org1:
+    image: couchdb:3.4
+    container_name: couchdb-peer1-org1
+    hostname: couchdb-peer1-org1.finance.com
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - "5984:5984"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.10
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+  couchdb-peer2-org1:
+    image: couchdb:3.4
+    container_name: couchdb-peer2-org1
+    hostname: couchdb-peer2-org1.finance.com
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - "5985:5984"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.11
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+  couchdb-peer1-org2:
+    image: couchdb:3.4
+    container_name: couchdb-peer1-org2
+    hostname: couchdb-peer1-org2.finance.com
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - "5986:5984"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.12
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+  couchdb-peer2-org2:
+    image: couchdb:3.4
+    container_name: couchdb-peer2-org2
+    hostname: couchdb-peer2-org2.finance.com
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=adminpw
+    ports:
+      - "5987:5984"
+    networks:
+      fabric_network:
+        ipv4_address: 172.18.0.13
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped

@@ -1,0 +1,74 @@
+# ===========================
+# Dépendances
+# ===========================
+node_modules/
+backend/node_modules/
+
+# ===========================
+# Builds
+# ===========================
+dist/
+dist-ssr/
+build/
+
+# ===========================
+# Hyperledger Fabric - Crypto & Données
+# (Régénérés par setup.sh, trop lourds/sensibles pour git)
+# ===========================
+hyperledger-fabric-network/crypto/
+hyperledger-fabric-network/fabric-ca-client/
+hyperledger-fabric-network/fabric-ca-server/
+hyperledger-fabric-network/fabric-ca-int-server/
+hyperledger-fabric-network/fabric-ca-tls-server/
+hyperledger-fabric-network/ledger/
+hyperledger-fabric-network/channel-artifacts/
+hyperledger-fabric-network/ordererSAT_COM/
+hyperledger-fabric-network/peerSAT_COM/
+hyperledger-fabric-network/config/
+hyperledger-fabric-network/scripts/channel-artifacts/
+
+# Fabric binaries (téléchargés par setup.sh)
+hyperledger-fabric-network/bin/
+bin/
+
+# ===========================
+# Backend - Données sensibles
+# ===========================
+backend/wallet/
+backend/.env
+
+# ===========================
+# Logs
+# ===========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ===========================
+# Système & IDE
+# ===========================
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.local
+Thumbs.db
+
+# ===========================
+# Divers
+# ===========================
+*.tar.gz
+*.tgz
+frontend/
+src/Copie de pages/
+src/context/setup4.sh
+src/context/Untitled.sh

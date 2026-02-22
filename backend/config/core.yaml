@@ -1,0 +1,60 @@
+logging:
+  level: info
+peer:
+  id: peer1-org1.finance.com
+  networkId: finance-network
+  listenAddress: 0.0.0.0:7051
+  address: peer1-org1.finance.com:7051
+  localMspId: Org1MSP
+  mspConfigPath: /etc/hyperledger/peer/msp
+  BCCSP:
+    Default: SW
+    SW:
+      Hash: SHA2
+      Security: 256
+      FileKeyStore:
+        KeyStore:
+  gossip:
+    bootstrap: peer2-org1.finance.com:7052
+    externalEndpoint: peer1-org1.finance.com:7051
+    useLeaderElection: true
+    orgLeader: false
+  tls:
+    enabled: true
+    cert:
+      file: /etc/hyperledger/peer/tls/signcerts/cert.pem
+    key:
+      file: /etc/hyperledger/peer/tls/keystore/key.pem
+    rootcert:
+      file: /etc/hyperledger/peer/tls/tlscacerts/tls-ca-cert.pem
+  chaincode:
+    externalBuilders:
+      - name: ccaas_builder
+        path: /opt/hyperledger/ccaas_builder
+    system: {}
+    logging:
+      level: info
+      shim: warning
+      format: '%{color}%{time:2006-01-02 15:04:05.000 MST} [%{module}] %{shortfunc} -> %{level:.4s} %{id:03x}%{color:reset} %{message}'
+vm:
+  endpoint: unix:///host/var/run/docker.sock
+  docker:
+    hostConfig:
+      NetworkMode: fabric_network
+      LogConfig:
+        Type: json-file
+        Config:
+          max-size: "50m"
+          max-file: "5"
+      Memory: 2147483648
+ledger:
+  state:
+    stateDatabase: CouchDB
+    couchDBConfig:
+      couchDBAddress: couchdb-peer1-org1.finance.com:5984
+      username: admin
+      password: adminpw
+      maxRetries: 3
+      requestTimeout: 35s
+  snapshots:
+    rootDir: /var/hyperledger/production/snapshots

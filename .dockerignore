@@ -1,0 +1,19 @@
+node_modules
+dist
+npm-debug.log*
+.git
+.gitignore
+.vscode
+*.md
+backend/node_modules
+backend/wallet
+hyperledger-fabric-network/crypto
+hyperledger-fabric-network/ledger
+hyperledger-fabric-network/bin
+hyperledger-fabric-network/fabric-ca-*
+hyperledger-fabric-network/channel-artifacts
+hyperledger-fabric-network/ordererSAT_COM
+hyperledger-fabric-network/peerSAT_COM
+bin
+frontend
+src/Copie de pages

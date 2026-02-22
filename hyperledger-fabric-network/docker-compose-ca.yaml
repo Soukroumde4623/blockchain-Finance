@@ -1,0 +1,67 @@
+version: '3.8'
+networks:
+  fabric_network:
+    external: true
+services:
+  fabric-tls-ca:
+    image: hyperledger/fabric-ca:1.5
+    hostname: tls-ca.finance.com
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=tls-ca
+      - FABRIC_CA_SERVER_PORT=7054
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_HOSTS=tls-ca.finance.com,fabric-tls-ca
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/fabric-ca-tls-server:/etc/hyperledger/fabric-ca-server
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/tls-ca-root-cert:/etc/hyperledger/fabric-ca-root-cert
+    ports:
+      - "7054:7054"
+    networks:
+      - fabric_network
+    command: sh -c 'fabric-ca-server start -b tlsadmin:adminpw'
+  fabric-root-ca:
+    image: hyperledger/fabric-ca:1.5
+    hostname: root-ca.finance.com
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=satcertca
+      - FABRIC_CA_SERVER_PORT=7055
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server/tls/cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server/tls/key.pem
+      - FABRIC_CA_SERVER_CSR_HOSTS=root-ca.finance.com,fabric-root-ca
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/fabric-ca-server:/etc/hyperledger/fabric-ca-server
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/tls-ca-root-cert:/etc/hyperledger/fabric-ca-root-cert
+    ports:
+      - "7055:7055"
+    networks:
+      - fabric_network
+    command: sh -c 'fabric-ca-server start -b rootadmin:satcertpw'
+    depends_on:
+      - fabric-tls-ca
+  fabric-intermediate-ca:
+    image: hyperledger/fabric-ca:1.5
+    hostname: int-ca.finance.com
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=satCertcaint
+      - FABRIC_CA_SERVER_PORT=7057
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server/tls/cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server/tls/key.pem
+      - FABRIC_CA_SERVER_CSR_HOSTs=int-ca.finance.com,fabric-intermediate-ca
+      - FABRIC_CA_SERVER_INTERMEDIATE_PARENTSERVER_URL=https://rootadmin:satcertpw@root-ca.finance.com:7055
+      - FABRIC_CA_SERVER_INTERMEDIATE_PARENTSERVER_CANAME=satcertca
+      - FABRIC_CA_SERVER_INTERMEDIATE_TLS_CERTFILES=/etc/hyperledger/fabric-ca-root-cert/tls-ca-cert.pem
+    volumes:
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/fabric-ca-int-server:/etc/hyperledger/fabric-ca-server
+      - /mnt/c/Users/HP/Documents/Blockchain/hyperledger-fabric-network/crypto/tls-ca-root-cert:/etc/hyperledger/fabric-ca-root-cert
+    ports:
+      - "7057:7057"
+    networks:
+      - fabric_network
+    command: sh -c 'fabric-ca-server start -b intadmin:intpw'
+    depends_on:
+      - fabric-root-ca

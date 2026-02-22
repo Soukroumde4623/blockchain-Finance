@@ -1,0 +1,76 @@
+# ============================================================================
+# Docker Compose — Blockchain Dashboard
+# 
+# MODES D'UTILISATION:
+#
+# 1) Frontend seul (démo/preview) :
+#    docker-compose up frontend
+#
+# 2) Frontend + Backend (sans réseau Fabric) :
+#    docker-compose up frontend backend
+#
+# 3) Stack complète (nécessite le réseau Fabric déployé) :
+#    docker-compose up
+# ============================================================================
+
+services:
+  # ==========================================
+  # FRONTEND — React Dashboard (nginx)
+  # ==========================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blockchain-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+        required: false
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # ==========================================
+  # BACKEND — Express API (Node.js)
+  # ==========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: blockchain-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - CHANNEL_NAME=tokenchannel
+      - CHAINCODE_NAME=token
+      - NODE_ENV=production
+      - WALLET_PATH=./wallet
+      - CONFIG_PATH=./config
+      - FABRIC_NETWORK_PATH=/fabric-network
+      - DISCOVERY_ENABLED=true
+      - DISCOVERY_AS_LOCALHOST=false
+    volumes:
+      # Monter le crypto-material et la config du réseau Fabric
+      - ./hyperledger-fabric-network:/fabric-network:ro
+      - ./backend/wallet:/app/wallet
+      - ./backend/config:/app/config:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:4000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - app-network
+      - fabric_network
+
+networks:
+  app-network:
+    driver: bridge
+  fabric_network:
+    external: true
+    name: fabric_network

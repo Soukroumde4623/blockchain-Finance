@@ -1,0 +1,17 @@
+version: '3.8'
+networks:
+  fabric_network:
+    external: true
+services:
+  token-chaincode:
+    image: token-chaincode:latest
+    container_name: token-chaincode
+    hostname: token-chaincode
+    environment:
+      - CHAINCODE_SERVER_ADDRESS=0.0.0.0:9999
+      - CHAINCODE_ID=token:3264418c407bde78e5f9e5361f1d149e9dfdffa7b2378003209ccebd1691efe6
+    ports:
+      - "9999:9999"
+    networks:
+      - fabric_network
+    restart: unless-stopped
