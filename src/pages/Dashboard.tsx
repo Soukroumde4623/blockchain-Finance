@@ -9,7 +9,7 @@ import { IconDatabase, IconFileText, IconUsers, IconServer } from '@tabler/icons
 export default function Dashboard() {
   const { stats, transactions, loading, error, currentOrg, organizations, setCurrentOrg } = useBlockchain();
 
-  if (loading) {
+  if (loading && !stats) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">
         <div className="text-center">

@@ -236,8 +236,8 @@ export default function Users() {
     }
   };
 
-  if (loading) return <p className="text-center text-white p-8">Chargement...</p>;
-  if (error) return <p className="text-red-500 text-center p-8">Erreur : {error}</p>;
+  if (loading && blockchainUsers.length === 0) return <p className="text-center text-white p-8">Chargement...</p>;
+  if (error && blockchainUsers.length === 0) return <p className="text-red-500 text-center p-8">Erreur : {error}</p>;
 
   return (
     <div className="bg-[#191E2D] rounded-xl p-6 min-h-screen overflow-y-auto text-white">

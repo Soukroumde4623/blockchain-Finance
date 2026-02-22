@@ -67,6 +67,7 @@ interface BlockchainContextType {
   organizations: string[];
   currentOrg: string;
   loading: boolean;
+  refreshing: boolean;
   error: string | null;
 
   refreshStats: () => Promise<void>;
@@ -110,6 +111,8 @@ export const BlockchainProvider: React.FC<BlockchainProviderProps> = ({ children
   const [organizations, setOrganizations] = useState<string[]>(['org1', 'org2']);
   const [currentOrg, setCurrentOrg] = useState<string>('org1');
   const [loading, setLoading] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [initialLoaded, setInitialLoaded] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const clearError = () => setError(null);
@@ -243,7 +246,12 @@ export const BlockchainProvider: React.FC<BlockchainProviderProps> = ({ children
 
   // Rafraîchissement complet
   const refreshAll = async () => {
-    setLoading(true);
+    // Only show full loading spinner on first load
+    if (!initialLoaded) {
+      setLoading(true);
+    } else {
+      setRefreshing(true);
+    }
     try {
       await Promise.all([
         refreshStats(),
@@ -251,10 +259,14 @@ export const BlockchainProvider: React.FC<BlockchainProviderProps> = ({ children
         refreshAccounts(),
         refreshUsers(),
       ]);
+      if (!initialLoaded) {
+        setInitialLoaded(true);
+      }
     } catch (err: any) {
       console.error('Erreur lors du rafraîchissement complet:', err);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   };
 
@@ -426,6 +438,7 @@ export const BlockchainProvider: React.FC<BlockchainProviderProps> = ({ children
 
   // Rafraîchissement au changement d'organisation
   useEffect(() => {
+    setInitialLoaded(false);
     refreshAll();
   }, [currentOrg]);
 
@@ -443,6 +456,7 @@ export const BlockchainProvider: React.FC<BlockchainProviderProps> = ({ children
     organizations,
     currentOrg,
     loading,
+    refreshing,
     error,
 
     refreshStats,
