@@ -7,7 +7,6 @@ Dashboard d'administration pour un réseau **Hyperledger Fabric**, avec gestion 
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
----
 
 ## 📋 Table des matières
 
@@ -58,8 +57,8 @@ Dashboard d'administration pour un réseau **Hyperledger Fabric**, avec gestion 
 > **Aucune installation supplémentaire requise.** Parfait pour voir l'interface.
 
 ```bash
-git clone https://github.com/<VOTRE_USERNAME>/blockchain-dashboard.git
-cd blockchain-dashboard
+git clone https://github.com/<VOTRE_USERNAME>/blockchain-Finance.git
+cd blockchain-Finance
 
 # Lancer le frontend
 docker-compose -f docker-compose.frontend.yml up --build
@@ -99,8 +98,8 @@ docker-compose up --build
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/<VOTRE_USERNAME>/blockchain-dashboard.git
-cd blockchain-dashboard
+git clone https://github.com/<VOTRE_USERNAME>/blockchain-Finance.git
+cd blockchain-Finance
 
 # 2. Déployer le réseau Hyperledger Fabric
 cd hyperledger-fabric-network
@@ -132,7 +131,7 @@ npm run dev
 ## 📁 Structure du projet
 
 ```
-blockchain-dashboard/
+blockchain-Finance/
 ├── src/                        # Code source React/TypeScript
 │   ├── App.tsx                 # Routes principales
 │   ├── components/             # Composants réutilisables

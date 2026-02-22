@@ -15,7 +15,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: blockchain-dashboard
+    container_name: blockchain-finance
     ports:
       - "3000:80"
     restart: unless-stopped
